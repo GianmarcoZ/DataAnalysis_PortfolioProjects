@@ -1,9 +1,12 @@
---SELECT date, location, population, total_cases, AVG(total_cases) OVER (PARTITION BY 1) FROM CovidDeaths
---WHERE location = 'Switzerland' OR location = 'Austria' 
---AND date BETWEEN '2021-03-01' AND '2023-03-01'
---ORDER BY date DESC
+--Clean Population Data
+SELECT TRIM(population) FROM CovidDeaths
 
---SELECT TRIM(population) FROM CovidDeaths
+ --Average of cases number in Austria and Switzerland in a time range
+SELECT date, location, population, total_cases, AVG(total_cases) OVER (PARTITION BY 1) FROM CovidDeaths
+WHERE location = 'Switzerland' OR location = 'Austria' 
+AND date BETWEEN '2021-03-01' AND '2023-03-01'
+ORDER BY date DESC
+
 
 USE PortfolioProject
 select COLUMN_NAME, DATA_TYPE from INFORMATION_SCHEMA.columns
@@ -20,7 +23,7 @@ ALTER COLUMN new_deaths float
 ALTER TABLE PortfolioProject.dbo.CovidVaccinations
 ALTER COLUMN new_vaccinations float
 
---probabilità di morte se si contrae il covid:
+--probabilitÃ  di morte se si contrae il covid:
 SELECT location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 
 FROM PortfolioProject.dbo.CovidDeaths
 ORDER BY 1,2
@@ -30,7 +33,7 @@ SELECT location, date, total_cases, population, (total_cases/population)*100 AS 
 FROM PortfolioProject.dbo.CovidDeaths
 WHERE location = 'Italy'
 
---quale paese ha il tasso di infezione più alto?
+--quale paese ha il tasso di infezione piÃ¹ alto?
 SELECT location, population, MAX(total_cases) AS HighestInfectionCount
 FROM PortfolioProject.dbo.CovidDeaths
 GROUP BY location, population
@@ -51,7 +54,7 @@ WHERE continent iS NOT NULL
 GROUP BY continent
 ORDER BY TotalDeathsCount DESC
 
---global numbers
+--Global numbers
 SELECT location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 AS DeathPercentage
 FROM CovidDeaths
 WHERE continent is not NULL
