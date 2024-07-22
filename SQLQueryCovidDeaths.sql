@@ -24,31 +24,31 @@ ALTER COLUMN new_deaths float
 ALTER TABLE PortfolioProject.dbo.CovidVaccinations
 ALTER COLUMN new_vaccinations float
 
---probabilità di morte se si contrae il covid:
+--Likelihood of death in case of Covid infection, in relation to Countries and time period.
 SELECT location, date, total_cases, total_deaths, (total_deaths/total_cases)*100 
 FROM PortfolioProject.dbo.CovidDeaths
 ORDER BY 1,2
 
---casi totali vs popolazione
+--Total cases VS Population for each Country
 SELECT location, date, total_cases, population, (total_cases/population)*100 AS PercentageOfCases 
 FROM PortfolioProject.dbo.CovidDeaths
 WHERE location = 'Italy'
 
---quale paese ha il tasso di infezione più alto?
+--Which country has the highest infection rate?
 SELECT location, population, MAX(total_cases) AS HighestInfectionCount
 FROM PortfolioProject.dbo.CovidDeaths
 GROUP BY location, population
 ORDER BY HighestInfectionCount DESC
  
 SELECT * FROM CovidDeaths
---countries with the highest death count per population
+--Countries with the highest death count per population
 SELECT location, MAX(total_deaths) AS TotalDeathsCount
 FROM PortfolioProject.dbo.CovidDeaths
 WHERE continent iS NOT NULL
 GROUP BY location
 ORDER BY TotalDeathsCount DESC
 
---continents with the highest death count per population
+--Continents with the highest death count per population
 SELECT continent, MAX(total_deaths) AS TotalDeathsCount
 FROM PortfolioProject.dbo.CovidDeaths
 WHERE continent iS NOT NULL
