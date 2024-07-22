@@ -8,10 +8,11 @@ AND date BETWEEN '2021-03-01' AND '2023-03-01'
 ORDER BY date DESC
 
 
-USE PortfolioProject
+--View Data Types of columns
 select COLUMN_NAME, DATA_TYPE from INFORMATION_SCHEMA.columns
 WHERE TABLE_NAME = 'CovidDeaths'
 
+ --Adjust table Data Types to support decimal numbers
 ALTER TABLE PortfolioProject.dbo.CovidDeaths
 ALTER COLUMN total_deaths float;
 ALTER TABLE PortfolioProject.dbo.CovidDeaths
